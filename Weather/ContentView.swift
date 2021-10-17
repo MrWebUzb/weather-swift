@@ -9,67 +9,28 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @State private var isNight: Bool = false
+    @ObservedObject var cityViewModel: CityViewModel = CityViewModel()
     
     var body: some View {
-        ZStack {
-            BackgroundView(isNight: $isNight)
-            
-            VStack {
-                CityView(cityName: "Kitab, Kashkadarya")
-                
-                CurrentDayWeatherView(
-                    temperature: 28,
-                    icon: isNight ? "moon.stars.fill" : "cloud.sun.fill")
-                
-                WeeklyWeatherView(weatherModels: [
-                    WeatherModel(dayOfWeek: "TUE",
-                                     icon:  "cloud.heavyrain.fill",
-                                     temperature: 12),
-                    WeatherModel(dayOfWeek: "WED",
-                                     icon:  "cloud.hail.fill",
-                                     temperature: 20),
-                    WeatherModel(dayOfWeek: "THU",
-                                     icon:  "cloud.sun.rain.fill",
-                                     temperature: 22),
-                    WeatherModel(dayOfWeek: "FRI",
-                                     icon:  "sun.max.fill",
-                                     temperature: 32),
-                    WeatherModel(dayOfWeek: "SAT",
-                                     icon:  "cloud.snow.fill",
-                                     temperature: -5)
-                ])
-                
-                Spacer()
-                
-                WeatherButton(action: {
-                    isNight.toggle()
-                },
-                      title: "Change Day Time",
-                      backgroundColor: .white,
-                      textColor: .blue)
-                
-                Spacer()
-            }
-        }
+        ZStack(alignment: .bottom) {
+            VStack(spacing: 0) {
+                MenuHeaderView(cityViewModel: cityViewModel)
+                    .padding()
+                ScrollView(showsIndicators: false) {
+                    CityView(cityViewModel: cityViewModel)
+                }.padding(.top, 10)
+            }.padding(.top, 30)
+        }.background(LinearGradient(
+            gradient: Gradient(colors: [Color("lightBlue"), .blue]),
+                       startPoint: .topLeading,
+                       endPoint: .bottomTrailing))
+            .edgesIgnoringSafeArea(.all)
+            .ignoresSafeArea()
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
-    }
-}
-
-struct BackgroundView: View {
-    @Binding var isNight: Bool
-    
-    var body: some View {
-        LinearGradient(gradient: Gradient(colors: [
-            isNight ? .black : .blue,
-            isNight ? .gray :Color("lightBlue")]),
-                       startPoint: .topLeading,
-                       endPoint: .bottomTrailing)
-            .edgesIgnoringSafeArea(.all)
     }
 }
