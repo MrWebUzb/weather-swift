@@ -15,9 +15,10 @@ struct ContentView: View {
         ZStack(alignment: .bottom) {
             VStack(spacing: 0) {
                 MenuHeaderView(cityViewModel: cityViewModel)
+                    .padding()
                 ScrollView(showsIndicators: false) {
                     CityView(cityViewModel: cityViewModel)
-                }
+                }.padding(.top, 10)
             }.padding(.top, 30)
         }.background(LinearGradient(
             gradient: Gradient(colors: [Color("lightBlue"), .blue]),

@@ -18,6 +18,7 @@ struct CityView: View {
             TodayWeatherView(cityViewModel: cityViewModel)
                 .padding()
             HourlyWeatherView(cityViewModel: cityViewModel)
+                .padding(.bottom, 10)
             DailyWeatherView(cityViewModel: cityViewModel)
         }
         .padding(.bottom, 40)
